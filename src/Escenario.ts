@@ -2,6 +2,14 @@ import * as PIXI from 'pixi.js';
 
 import { MySprite } from "./sprites"
 
+export class EscenarioFactory{
+    public static getEscenario(tipo: string, nombre: string): Escenario{
+        if(tipo.toLocaleLowerCase() == 'entrenamiento'){
+            return new EscenarioEntrenamiento(nombre)
+        }
+    }
+}
+
 export abstract class Escenario{
     protected _nombre: string
     protected _sprite: PIXI.AnimatedSprite
