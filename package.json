@@ -1,0 +1,30 @@
+{
+  "name": "manu-kombat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run clean && parcel src/index.html",
+    "build": "npm run clean && parcel build src/index.html --public-url ./",
+    "clean": "rimraf ./dist ./.cache"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manu-apps/manu-kombat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manu-apps/manu-kombat/issues"
+  },
+  "dependencies": {
+    "assets": "^3.0.1",
+    "eventemitter3-timer": "^1.0.1",
+    "parcel-bundler": "^1.12.5",
+    "pixi.js": "^5.3.10",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.3.5"
+  },
+  "homepage": "https://github.com/manu-apps/manu-kombat#readme"
+}
