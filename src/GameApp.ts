@@ -2,6 +2,7 @@ import {Personaje, PersonajeFactory} from "./Personaje"
 import {Escenario, EscenarioFactory} from "./Escenario"
 
 import * as PIXI from 'pixi.js'
+import { Timer, TimerManager } from "eventemitter3-timer";
 
 type WorldObject = Personaje | Escenario
 
@@ -49,5 +50,36 @@ export class GameApp{
         this.entidades.push(escenario)
         this.entidades.push(liu1)
         this.entidades.push(liu2)
+
+        this.welcomeText("Manu Kombat")
+    }
+
+    private welcomeText(texto: string):void{
+        let style = new PIXI.TextStyle({
+            fontFamily: "Arial",
+            fontSize: 36,
+            fill: "white",
+            stroke: '#ff3300',
+            strokeThickness: 4,
+            dropShadow: true,
+            dropShadowColor: "#000000",
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 6,
+        });
+
+        let message = new PIXI.Text(texto, style)
+        // TODO: refactor la posición...
+        message.position.set(GameApp.width/3, 10)
+
+        // TODO: Refactor lo de timer..
+        const timer = new Timer(1000*5); // 1000ms*5 = 5 seconds
+        timer.on("end", () => {
+            message.destroy()
+            //console.log("Timer ended.");
+        });
+        timer.start();
+
+        GameApp.stage.addChild(message)
     }
 }

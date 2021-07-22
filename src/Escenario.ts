@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 
+import { GameApp } from "./GameApp"
 import { MySprite } from "./sprites"
 
 export class EscenarioFactory{
@@ -31,6 +32,8 @@ export class EscenarioEntrenamiento extends Escenario{
 
         this._sprite.animationSpeed = 0.1
         this._sprite.play()
+
+        GameApp.stage.addChild(this._sprite)
     }
 
     public update(delta: number):void{
