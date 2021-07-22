@@ -1,6 +1,6 @@
-import characterLiuKangWait from './assets/images/liu-kang/wait/*.png';
-import characterLiuKangKick from './assets/images/liu-kang/kick/*.png';
-import stageTemple from './assets/images/stage-temple/*.png';
+import characterLiuKangWait from './assets/images/characters/liu-kang/wait/*.png';
+import characterLiuKangKick from './assets/images/characters/liu-kang/kick/*.png';
+import stageTemple from './assets/images/stages/stage-temple/*.png';
 
 import * as PIXI from 'pixi.js';
 
@@ -11,7 +11,7 @@ const spriteNames = {
 }
 
 export class MySprite{
-    public static GetSprite(name){
+    public static GetSprite(name:any){
         return new PIXI.AnimatedSprite(spriteNames[name].map(path => PIXI.Texture.from(path)))
     }
 }

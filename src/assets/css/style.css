@@ -1,0 +1,29 @@
+body {
+    background-image: url("../images/background/background-2.jpg");
+    margin: 0px;
+    overflow: hidden;
+
+    -webkit-background-size:cover;
+    -moz-background-size:cover;
+    -o-background-size:cover;
+    background-size:cover;
+    background-position:center center;
+    background-attachment: fixed;
+}
+
+.shadow {
+    box-shadow: 0 0 25px #000;
+}
+
+#container {
+    position: absolute;
+
+    left: 50%;
+    top:50%;
+    width: 800px;
+    height: 270px;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    -webkit-box-shadow: 5px 5px 15px 5px #000000;
+    box-shadow: 5px 5px 15px 5px #000000;
+}
