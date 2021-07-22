@@ -4,16 +4,19 @@ import { MySprite } from "./sprites"
 import { GameApp } from "./GameApp"
 import { Accion } from "./Accion"
 
+import { Patada, PatadaVoladora, PatadaRapida } from "./Patada"
+
+// TODO: Terminar el patrón Strategy con más variedad de skills
 // TODO: Agregar animaciones
 // TODO: Implementar las colisiones entre personajes
 export class PersonajeFactory{
     public static getPersonaje(tipo: string, nombre: string): Personaje{
         if(tipo.toLocaleLowerCase() == 'player1'){
-            return new Player1(nombre)
+            return new Player1(nombre, new PatadaRapida())
         }
 
         if(tipo.toLocaleLowerCase() == 'player2'){
-            return new Player2(nombre)
+            return new Player2(nombre, new PatadaRapida())
         }
     }
 }
@@ -26,6 +29,7 @@ interface Habilidad{
 
 export abstract class Personaje implements Habilidad{
     protected _nombre: string
+    protected _patada: Patada // <- Strategy
     protected _sprite: PIXI.AnimatedSprite
     protected saltando: boolean = false
 
@@ -39,6 +43,11 @@ export abstract class Personaje implements Habilidad{
     }
 
     public darPatada():void{
+        this._patada.darPatada()
+    }
+
+    public setPatada(patada:Patada):void{
+        this._patada = patada
     }
 
     public darPunietazo():void{
@@ -136,12 +145,14 @@ export abstract class Personaje implements Habilidad{
 }
 
 class Player1 extends Personaje{
-    public constructor(nameSprite: string){
+    public constructor(nameSprite: string, patada: Patada){
         super()
 
         this._sprite = MySprite.GetSprite(nameSprite)
         this._sprite.animationSpeed = 0.1
         this._sprite.play()
+
+        this._patada = patada
 
         this.vx = 0
         this.vy = 0
@@ -158,12 +169,14 @@ class Player1 extends Personaje{
 }
 
 class Player2 extends Personaje{
-    public constructor(nameSprite: string){
+    public constructor(nameSprite: string, patada: Patada){
         super()
 
         this._sprite = MySprite.GetSprite(nameSprite)
         this._sprite.animationSpeed = 0.1
         this._sprite.play()
+
+        this._patada = patada
 
         this.vx = 0
         this.vy = 0
