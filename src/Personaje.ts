@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi.js';
 
 import { MySprite } from "./sprites"
+import { GameApp } from "./GameApp"
+import { Accion } from "./Accion"
 
 // TODO: Agregar animaciones
 // TODO: Implementar las colisiones entre personajes
@@ -53,6 +55,83 @@ export abstract class Personaje implements Habilidad{
     }
 
     public update(delta: number):void{
+        let luchador = this._sprite
+
+        if(this.saltando && GameApp.posicionPiso >= luchador.y){
+            luchador.y += 10
+        }
+        else{
+            this.saltando = false
+
+            luchador.x += this.vx * delta;
+            luchador.y += this.vy * delta;
+        }
+    }
+
+    // TODO: Refactor, demasiados parámetros
+    protected setupKeyboard(_left:string, _right:string, _up:string, _down:string, _kick:string, _hit: string):void{
+        let luchador = this
+
+        let kick = Accion.keyboard(_kick)
+        let hit = Accion.keyboard(_hit)
+
+        let left = Accion.keyboard(_left)
+        let up = Accion.keyboard(_up)
+        let right = Accion.keyboard(_right)
+        let down = Accion.keyboard(_down)
+
+        kick.press = () => {
+            console.log('kicked..!')
+            this.darPatada()
+        };
+
+        hit.press = () => {
+            console.log('hit..!')
+        };
+
+        left.press = () => {
+            luchador.vx = -5;
+            luchador.vy = 0;
+        };
+
+        left.release = () => {
+            if (!right.isDown && luchador.vy === 0) {
+                luchador.vx = 0;
+            }
+        };
+
+        up.press = () => {
+            //luchador.vy = -5;
+            luchador.vx = 0;
+
+            this.saltar()
+            //this.saltando = true
+        };
+        up.release = () => {
+            if (!down.isDown && luchador.vx === 0) {
+                luchador.vy = 0;
+            }
+        };
+
+        right.press = () => {
+            luchador.vx = 5;
+            luchador.vy = 0;
+        };
+        right.release = () => {
+            if (!left.isDown && luchador.vy === 0) {
+                luchador.vx = 0;
+            }
+        };
+
+        down.press = () => {
+            luchador.vy = 5;
+            luchador.vx = 0;
+        };
+        down.release = () => {
+            if (!up.isDown && luchador.vx === 0) {
+                luchador.vy = 0;
+            }
+        };
     }
 }
 
@@ -67,10 +146,13 @@ class Player1 extends Personaje{
         this.vx = 0
         this.vy = 0
 
+        GameApp.stage.addChild(this._sprite)
+        this.setupKeyboard('ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'z', 'x')
         this.posicionar()
     }
 
     private posicionar():void{
+        this._sprite.y = GameApp.posicionPiso
         this._sprite.x = 0
     }
 }
@@ -86,10 +168,15 @@ class Player2 extends Personaje{
         this.vx = 0
         this.vy = 0
 
+        GameApp.stage.addChild(this._sprite)
+        this.setupKeyboard('h', 'l', ' ', 'Control', 'q', 'w')
         this.posicionar()
     }
 
     private posicionar():void{
+        this._sprite.y = GameApp.posicionPiso
+        this._sprite.x = GameApp.width
+
         this._sprite.scale.x *= -1
     }
 }
